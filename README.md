@@ -1,4 +1,4 @@
-# FluenceFormer (Prostate Fluence) – Ablation + Prediction Saving
+# FluenceFormer: Transformer-Driven Multi-Beam Fluence Map Regression for Radiotherapy Planning
 
 This repository contains:
 1) Backbone × Loss ablation (metrics + CSV)

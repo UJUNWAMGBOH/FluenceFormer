@@ -7,8 +7,8 @@ This repository contains:
 ## Backbones included (paper-reported)
 - SwinUNETR (MONAI)
 - UNETR (MONAI)
-- nnFormer (2D implementation in this repo)
-- MedFormer (2D implementation in this repo)
+- nnFormer 
+- MedFormer
 
 ## Setup
 ```bash

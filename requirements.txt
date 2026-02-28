@@ -1,0 +1,11 @@
+
+---
+
+## `requirements.txt`
+```txt
+numpy
+scipy
+torch
+monai
+scikit-image
+matplotlib

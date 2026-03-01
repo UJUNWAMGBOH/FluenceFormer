@@ -1,103 +1,65 @@
-# FluenceFormer: Transformer-Driven Multi-Beam Fluence Map Regression for Radiotherapy Planning
+# FluenceFormer
 
-This repository contains:
-1) Backbone × Loss ablation (metrics + CSV)
-2) Clean training + inference pipeline (FAR loss) that saves predictions per patient with alignment audit trail.
+## FluenceFormer: Transformer-Driven Multi-Beam Fluence Map Regression for Radiotherapy Planning
 
-## Backbones included (paper-reported)
+**Ujunwa Mgboh**, Rafi Ibn Sultan, Joshua Kim, Kundan Thind, Dongxiao Zhu  
+Accepted at *MIDL, 2026*
+
+📄 **Paper link:** Coming soon  
+💻 **Code:** https://github.com/UJUNWAMGBOH/FluenceFormer  
+
+---
+
+FluenceFormer is a backbone-agnostic transformer framework for direct, geometry-aware multi-beam fluence regression in automated radiotherapy planning.
+
+---
+
+# Abstract
+
+Fluence map prediction is central to automated radiotherapy planning but remains an ill-posed inverse problem due to the complex relationship between volumetric anatomy and beam-intensity modulation. Convolutional methods in prior work often struggle to capture long-range dependencies, which can lead to structurally inconsistent or physically unrealizable plans.
+
+We introduce **FluenceFormer**, a backbone-agnostic transformer framework for direct, geometry-aware fluence regression. The model adopts a unified two-stage design: **Stage 1** predicts a global dose prior from anatomical inputs, and **Stage 2** conditions this prior on explicit beam geometry to regress physically calibrated fluence maps.
+
+Central to the approach is the **Fluence-Aware Regression (FAR)** loss, a physics-informed objective integrating voxel-level fidelity, gradient smoothness, structural consistency, and beam-wise energy conservation. We evaluate the generality of the framework across multiple transformer backbones, including Swin UNETR, UNETR, nnFormer, and MedFormer, on a prostate IMRT dataset.
+
+FluenceFormer with Swin UNETR achieves the strongest performance among evaluated models and improves over existing CNN and single-stage baselines, reducing Energy Error to **4.5%** while yielding statistically significant gains in structural fidelity (*p* < 0.05).
+
+---
+
+# Architecture Overview
+
+FluenceFormer follows a two-stage geometry-aware design:
+
+- **Stage 1:** Global dose prior prediction from anatomical inputs (CT, contours, dose context).
+- **Stage 2:** Beam-conditioned fluence regression using explicit angular encoding.
+- **Loss:** Fluence-Aware Regression (FAR) enforcing physical and structural consistency.
+
+Supported transformer backbones:
+
 - SwinUNETR (MONAI)
 - UNETR (MONAI)
-- nnFormer 
-- MedFormer
+- nnFormer (2D implementation)
+- MedFormer (2D implementation)
 
-## Setup
+---
+
+# Key Contributions
+
+- Backbone-agnostic transformer framework for multi-beam fluence regression
+- Explicit geometry conditioning for beam-aware prediction
+- Physics-informed Fluence-Aware Regression (FAR) loss
+- Comprehensive backbone × loss ablation study
+- Hungarian alignment for beam matching during evaluation
+- Fully reproducible training and inference pipeline
+
+---
+
+# Installation
+
 ```bash
+git clone https://github.com/UJUNWAMGBOH/FluenceFormer.git
+cd FluenceFormer
+
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-
-Expected data layout
-
-DATA_ROOT/
-  train/
-    ct/          {id}_ct.npy
-    contour/     {id}_contoursCT.npy
-    dose/        {id}_dose.npy
-    fluences/    {id}_fluences.npy
-  val/
-    ...
-  test/
-    ...
-
-For my dataset, each fluences file must contain 9 beam maps per patient.
-
-
-1) Train (FAR) + Inference + Save Predictions
-
-This pipeline:
-  Trains each backbone using FAR loss
-  Saves model checkpoints
-  Runs inference on the test set
-  Aligns predicted beams to ground truth using Hungarian matching
-  Saves prediction stacks, alignment mappings, and visualizations
-
-Run Training + Inference
-PYTHONPATH=src python -m prostate_fluence.run_train_and_infer \
-  --data-root "/path/to/DATA_ROOT" \
-  --out-dir "./train_infer_outputs" \
-  --epochs 50 \
-  --batch-size 16 \
-  --lr 1e-4 \
-  --save-per-beam
-
-train_infer_outputs/
-├─ checkpoints/
-│   ├─ SwinUNETR_FAR.pth
-│   ├─ UNETR_FAR.pth
-│   ├─ nnFormer_FAR.pth
-│   └─ MedFormer_FAR.pth
-│
-├─ SwinUNETR/
-│   └─ patient_<pid>/
-│        ├─ gt_9hw.npy
-│        ├─ pred_9hw_raw.npy
-│        ├─ pred_9hw_aligned.npy
-│        ├─ alignment_mapping.npy
-│        ├─ <pid>_viz.png
-│        └─ beams/ (optional)
-│
-├─ UNETR/
-├─ nnFormer/
-└─ MedFormer/
-
-
-2) Backbone × Loss Ablation
-
-This script performs the full ablation experiment.
-For each backbone:
-  Retrains from scratch under each loss configuration:
-  Baseline (MSE)
-  MSE + Correlation
-  MSE + Energy
-  MSE + Gradient
-  Proposed FAR
-  Evaluates on the validation set
-
-Computes:
-  MAE, Energy %, PSNR, SSIM, Performs Wilcoxon signed-rank test (FAR vs Baseline)
-  Writes results to CSV
-
-Run Ablation
-PYTHONPATH=src python -m prostate_fluence.run_ablation \
-  --data-root "/path/to/DATA_ROOT" \
-  --ckpt-dir "./ablation_outputs" \
-  --epochs 50 \
-  --batch-size 16 \
-  --lr 1e-4 \
-  --retrain-per-loss
-
-
-
-Citation
-If you use this code in your research, please cite the FluenceFormer paper.
-

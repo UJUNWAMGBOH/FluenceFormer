@@ -63,7 +63,8 @@ python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-```markdown
+---
+
 # Citation
 
 If you find this work useful in your research, please consider citing:

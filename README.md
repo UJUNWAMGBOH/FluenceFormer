@@ -49,7 +49,6 @@ Supported transformer backbones:
 - Explicit geometry conditioning for beam-aware prediction
 - Physics-informed Fluence-Aware Regression (FAR) loss
 - Comprehensive backbone × loss ablation study
-- Hungarian alignment for beam matching during evaluation
 - Fully reproducible training and inference pipeline
 
 ---
@@ -63,3 +62,16 @@ cd FluenceFormer
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+
+```markdown
+# Citation
+
+If you find this work useful in your research, please consider citing:
+
+```bibtex
+@inproceedings{fluenceformer2026,
+  title={FluenceFormer: Transformer-Driven Multi-Beam Fluence Map Regression for Radiotherapy Planning},
+  author={Ujunwa Mgboh, Rafi Ibn Sultan, Joshua Kim, Kundan Thind, Dongxiao Zhu},
+  booktitle={Proceedings of the Medical Imaging with Deep Learning (MIDL)},
+  year={2026}
+}

@@ -36,10 +36,10 @@ FluenceFormer follows a two-stage geometry-aware design:
 
 Supported transformer backbones:
 
-- SwinUNETR (MONAI)
-- UNETR (MONAI)
-- nnFormer (2D implementation)
-- MedFormer (2D implementation)
+- SwinUNETR 
+- UNETR
+- nnFormer 
+- MedFormer
 
 ---
 
@@ -55,13 +55,18 @@ Supported transformer backbones:
 
 # Installation
 
+Clone the repository:
+
 ```bash
 git clone https://github.com/UJUNWAMGBOH/FluenceFormer.git
 cd FluenceFormer
+```
 
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
 ---
 
@@ -72,7 +77,8 @@ If you find this work useful in your research, please consider citing:
 ```bibtex
 @inproceedings{fluenceformer2026,
   title={FluenceFormer: Transformer-Driven Multi-Beam Fluence Map Regression for Radiotherapy Planning},
-  author={Ujunwa Mgboh, Rafi Ibn Sultan, Joshua Kim, Kundan Thind, Dongxiao Zhu},
+  author={Ujunwa Mgboh, Rafi Ibn Sultan, Joshua Kim, Kundan Thind and Dongxiao Zhu},
   booktitle={Proceedings of the Medical Imaging with Deep Learning (MIDL)},
   year={2026}
 }
+```

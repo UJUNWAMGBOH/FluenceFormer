@@ -67,6 +67,7 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+Instructions for directory structure, training and evaluation can be found in instructions.md
 
 ---
 

@@ -30,6 +30,10 @@ FluenceFormer with Swin UNETR achieves the strongest performance among evaluated
 
 FluenceFormer follows a two-stage geometry-aware design:
 
+<p align="center">
+  <img src="Figures/Architecture_overview.png" width="800">
+</p>
+
 - **Stage 1:** Global dose prior prediction from anatomical inputs (CT, contours, dose context).
 - **Stage 2:** Beam-conditioned fluence regression using explicit angular encoding.
 - **Loss:** Fluence-Aware Regression (FAR) enforcing physical and structural consistency.
